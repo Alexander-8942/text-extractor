@@ -17,6 +17,14 @@ def roman_to_int(roman):
 def is_roman(s):
     return re.fullmatch(r"[ivxlcdmIVXLCDM]+", s) is not None
 
+def clean_text(lines):
+    """Remove empty/whitespace lines and collapse multiple blank lines."""
+    cleaned = [line.strip() for line in lines if line and line.strip()]
+    text = "\n".join(cleaned)
+    text = re.sub(r'\n\s*\n+', '\n\n', text)  # collapse multiple blank lines
+    return text
+
+
 def process_idml(idml_file):
     base_name = os.path.splitext(os.path.basename(idml_file))[0].replace(" ","_")
     extract_dir = base_name
@@ -51,12 +59,14 @@ def process_idml(idml_file):
         tree = ET.parse(os.path.join(stories_path,fname)); root = tree.getroot()
         sid = root.find(".//Story").get("Self")
         texts = [c.text.strip() for c in root.findall(".//Content") if c.text]
-        story_texts[sid] = "\n".join(texts)
+        #story_texts[sid] = "\n".join(texts)
+        story_texts[sid] = clean_text(texts)
 
     # Combine pages
     pages=[]
     for p,stories in page_to_stories.items():
-        text="\n".join(story_texts.get(s,"") for s in stories)
+        #text="\n".join(story_texts.get(s,"") for s in stories)
+        text = clean_text([story_texts.get(s, "") for s in stories])
         if is_roman(p): pages.append((roman_to_int(p),"roman",p,text))
         else:
             try: pages.append((10000+int(p),"numeric",p,text))
