@@ -1,0 +1,42 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+
+# Backup files
+*~
+*.bak
+
+# Extracted IDML folders (unzipped content)
+*/Spreads/
+*/Stories/
+*/Resources/
+*/Fonts/
+*/META-INF/
+*/designmap.xml
+*.idml.unzip/
+
+# Large files (optional)
+*.pdf
+*.zip
+
+# Logs
+*.log
+
+# Byte-compiled / temp files
+*.swp
